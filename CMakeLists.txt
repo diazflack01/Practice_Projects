@@ -2,62 +2,31 @@ message("=====================================================")
 message("===== Start CMakeLists.txt on Practice_Projects =====")
 message("=====================================================")
 
-### Cmake version
+# cmake version
 cmake_minimum_required(VERSION 3.5)
 
-### Set project name
-set(PROJECT_NAME "Baby Calculator")
+# set project name
+set(PROJECT_NAME "Baby_Project_CMake_GTest")
 project(${PROJECT_NAME})
+enable_language(C CXX)
 
-### Find threads package. Specifying REQUIRED will make CMake exit when Threads is not found
-find_package(Threads REQUIRED)
+# Add definitions. Compiler flags? Not yet sure...
+add_definitions(-Wall -Werror -ansi -Wno-deprecated -pthread)
 
-### Add definitions. Compiler flags? Not yet sure...
-add_definitions(-Wall -ansi -Wno-deprecated -pthread)
-
-### Set to Debug. For prints? Not yet sure, how logs differ...
+# Set to Debug. For prints? Not yet sure, how logs differ...
 set(CMAKE_BUILD_TYPE Debug)
 
+# Set other variables
+set(EXTERNAL_DIR ${PROJECT_SOURCE_DIR}/externals)
 
-### Set other variables
-set(EXT_DIR ${PROJECT_SOURCE_DIR}/externals)
-set(GOOGLE_TEST_DIR ${EXT_DIR}/googletest)
-set(PROJECT_TEST_DIR ${PROJECT_SOURCE_DIR}/test)
+# Add googletest. This will call CMakeLists.txt of googletest and it will compile the libraries along with your project
+add_subdirectory(${EXTERNAL_DIR}/googletest)
 
-### Add googletest. This will call CMakeLists.txt of googletest and it will compile the libraries along with your project
-add_subdirectory(${GOOGLE_TEST_DIR})
-#add_subdirectory(${EXT_DIR}/googletest)
+# googltest includes for test files and for Calculator class hpp
+include_directories(${gtest_SOURCE_DIR}/include ${gmock_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/Calculator) # gtest_SOURCE_DIR was defined when googletest was compiled
 
-### enable `ctest` option in project directory
-enable_testing()
-
-### googltest includes -- NOT WORKING
-include_directories(${GTEST_INCLUDE_DIRS}) #message("GTEST_INCLUDE_DIRS ${GTEST_INCLUDE_DIRS}")
-
-
-file(GLOB TEST_SRC_FILES ${PROJECT_TEST_DIR}/*.cpp ${PROJECT_SOURCE_DIR}/src/Calculator/*.cpp)
-### include 
-include_directories(${PROJECT_SOURCE_DIR}/src/Calculator ${GOOGLE_TEST_DIR}/googletest/include ${GOOGLE_TEST_DIR}/googlemock/include)
-
-add_executable(testFile ${TEST_SRC_FILES})
-#add_executable(testFile test/calculator_test.cpp)
-#target_include_directories(testFile PUBLIC ${GTEST_INCLUDE_DIRS} ${GOOGLE_TEST_DIR}/googletest/include ${GOOGLE_TEST_DIR}/googlemock/include)
-### Not working. Dont know what is the use of this...
-#add_dependencies(testFile googletest)
-
-### Link gtest libraries
-#target_link_libraries(testFile ${GTEST_LIBS_DIR}/libgtest.a ${GTEST_LIBS_DIR}/libgtest_main.a) -- ${GTEST_LIBS_DIR} has no output
-#message("GTEST_LIBS_DIR ${GTEST_LIBS_DIR}") -- NOT WORKING
-
-### Actual linking of googltest libraries to compiled executable
-set(gtest_libs_dirr ${PROJECT_BINARY_DIR}/externals/googletest/googlemock/gtest)
-target_link_libraries(testFile ${gtest_libs_dirr}/libgtest.a ${gtest_libs_dirr}/libgtest_main.a)
-
-### Linking of Threads for -pthread. Dont know what it is for exactly...
-target_link_libraries(testFile ${CMAKE_THREAD_LIBS_INIT})
-
-### arg1 will be the displayed name when `ctest` is executed. Arg2 is the test binary that will be executed where the output result will be based on
-add_test(testFile testFile)
-
-### src
+# for src
 add_subdirectory(src)
+
+# for test
+add_subdirectory(test)
