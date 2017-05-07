@@ -8,13 +8,22 @@ cmake_minimum_required(VERSION 3.5)
 # set project name
 set(PROJECT_NAME "Baby_Project_CMake_GTest")
 project(${PROJECT_NAME})
-enable_language(C CXX)
+enable_language(CXX)
 
 # Add definitions. Compiler flags? Not yet sure...
 add_definitions(-Wall -Werror -ansi -Wno-deprecated -pthread)
 
+# Specify to use C++11
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Set to Debug. For prints? Not yet sure, how logs differ...
 set(CMAKE_BUILD_TYPE Debug)
+
+# creating cmake options
+option(BUILD_UT "This flag builds UT" OFF)
+option(BUILD_SRC "This flag builds src" OFF)
 
 # Set other variables
 set(EXTERNAL_DIR ${PROJECT_SOURCE_DIR}/externals)
@@ -26,13 +35,11 @@ add_subdirectory(${EXTERNAL_DIR}/googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gmock_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/Calculator) # gtest_SOURCE_DIR was defined when googletest was compiled
 
 # for src
-add_subdirectory(src)
+if(BUILD_SRC)
+	add_subdirectory(src)
+endif()
 
 ### for test
-
-# creating option
-option(BUILD_UT "This flag builds UT" OFF)
-
 # if option set to true, compile UT
 if(BUILD_UT)
 	add_subdirectory(test)

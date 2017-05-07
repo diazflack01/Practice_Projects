@@ -6,8 +6,12 @@ message("=====================================================")
 # Find threads package which is needed for googletest. Specifying REQUIRED will make CMake exit when Threads is not found
 find_package(Threads REQUIRED)
 
+# enable `ctest` option in build directory
+enable_testing()
+
+### CalculatorTest
 # Assign all cpp files to variable TEST_SOURCE_FILES
-file(GLOB TEST_SOURCE_FILES *.cpp ${PROJECT_SOURCE_DIR}/src/Calculator/*.cpp)
+file(GLOB TEST_SOURCE_FILES main.cpp CalculatorTest.cpp ${PROJECT_SOURCE_DIR}/src/Calculator/*.cpp)
 
 # set test name binary then create executable
 set(PROJECT_TEST_NAME "${PROJECT_NAME}_test")
@@ -19,8 +23,14 @@ add_dependencies(${PROJECT_TEST_NAME} gtest gtest_main gmock gmock_main) # gtest
 # Link needed libraries to test executable
 target_link_libraries(${PROJECT_TEST_NAME} gtest gtest_main gmock gmock_main ${CMAKE_THREAD_LIBS_INIT})
 
-# enable `ctest` option in build directory
-enable_testing()
-
 # add test executable with name
 add_test(CalculatorTest ${PROJECT_TEST_NAME})
+
+### PalindromeTest
+include_directories(${PROJECT_SOURCE_DIR}/src/Palindrome)
+file(GLOB PALINDROME_TEST_SRC_FILES main.cpp PalindromeTest.cpp ${PROJECT_SOURCE_DIR}/src/Palindrome/*.cpp)
+set(PALINDROME_TEST_EXEC_NAME "${PROJECT_NAME}_PalindromeTest")
+add_executable(${PALINDROME_TEST_EXEC_NAME} ${PALINDROME_TEST_SRC_FILES})
+add_dependencies(${PALINDROME_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main)
+target_link_libraries(${PALINDROME_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main ${CMAKE_THREAD_LIBS_INIT})
+add_test(PalindromeTest ${PALINDROME_TEST_EXEC_NAME})
