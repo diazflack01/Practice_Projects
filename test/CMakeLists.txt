@@ -34,3 +34,13 @@ add_executable(${PALINDROME_TEST_EXEC_NAME} ${PALINDROME_TEST_SRC_FILES})
 add_dependencies(${PALINDROME_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main)
 target_link_libraries(${PALINDROME_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main ${CMAKE_THREAD_LIBS_INIT})
 add_test(PalindromeTest ${PALINDROME_TEST_EXEC_NAME})
+
+
+### RagnarokTest
+include_directories(${PROJECT_SOURCE_DIR}/src/Ragnarok Ragnarok)
+file(GLOB RAGNAROK_ARCHER_SRC_FILES ${PROJECT_SOURCE_DIR}/src/Ragnarok/Hero/Archer.cpp)
+file(GLOB RAGNAROK_ARCHER_TEST_SRC_FILES main.cpp Ragnarok/Hero/*.cpp)
+set(RAGNAROK_ARCHER_TEST_EXEC_NAME "${PROJECT_NAME}_Ragnarok_ArcherTest")
+add_executable(${RAGNAROK_ARCHER_TEST_EXEC_NAME} ${RAGNAROK_ARCHER_TEST_SRC_FILES} ${RAGNAROK_ARCHER_SRC_FILES})
+add_dependencies(${RAGNAROK_ARCHER_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main)
+target_link_libraries(${RAGNAROK_ARCHER_TEST_EXEC_NAME} gtest gtest_main gmock gmock_main ${CMAKE_THREAD_LIBS_INIT})

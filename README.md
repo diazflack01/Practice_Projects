@@ -37,3 +37,8 @@
 
 (C)
  - Done Palindrome UT
+
+(D)
+ - Created Ragnarok OOP + UT w/ mocks
+ - NEXT:
+	- Still lacking Poring Enemy implementation

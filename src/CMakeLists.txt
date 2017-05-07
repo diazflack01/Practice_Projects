@@ -25,3 +25,5 @@ file(GLOB_RECURSE SOURCES main.cpp Calculator/*.cpp)
 include_directories(Calculator)
 
 add_executable(Calculator ${SOURCES})
+
+##### For Ragnarok
