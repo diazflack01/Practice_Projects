@@ -27,7 +27,7 @@ bool Palindrome::testString(const std::string text)
     ++mNumberOfTestedString;
     // Using no STL
     unsigned i = 0;
-    unsigned j = text.length() -1;
+    unsigned j = text.length() - 1;
     while (i < j)
     {
         if(text.at(i) != text.at(j))
@@ -35,6 +35,8 @@ bool Palindrome::testString(const std::string text)
             mFailedPalindromeString.emplace_back(text);
             return false;
         }
+        ++i;
+        --j;
     }
     mPalindromeString.emplace_back(text);
     return true;

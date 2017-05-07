@@ -34,3 +34,6 @@
  - NEXT:
 	- Complete test for Palindrome class
 	- Create Class that employ OOP and create UT + Mocks(new)
+
+(C)
+ - Done Palindrome UT
