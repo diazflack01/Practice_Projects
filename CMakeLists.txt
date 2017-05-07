@@ -28,5 +28,13 @@ include_directories(${gtest_SOURCE_DIR}/include ${gmock_SOURCE_DIR}/include ${PR
 # for src
 add_subdirectory(src)
 
-# for test
-add_subdirectory(test)
+### for test
+
+# creating option
+option(BUILD_UT "This flag builds UT" OFF)
+
+# if option set to true, compile UT
+if(BUILD_UT)
+	add_subdirectory(test)
+endif()
+### 
